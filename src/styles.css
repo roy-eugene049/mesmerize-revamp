@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+  
+  --color-brand-beige: #f5f2ed;
+  --color-brand-gold: #c5a059;
+  --color-brand-green: #1a3a32;
+  --color-brand-rose: #e8d5d5;
+  --color-brand-coral: #E6A685;
+
+  --color-border: #e5e7eb;
+  
+  /* Map semantic colors to CSS variables - .mesmerize will override these */
+  --color-background: var(--background, #ffffff);
+  --color-foreground: var(--foreground, #1a3a32);
+  --color-primary: var(--primary, #1a3a32);
+  --color-primary-foreground: var(--primary-foreground, #ffffff);
+  --color-secondary: var(--secondary, #c5a059);
+  --color-secondary-foreground: var(--secondary-foreground, #1a3a32);
+  --color-accent: var(--accent, #c5a059);
+  --color-accent-foreground: var(--accent-foreground, #ffffff);
+  --color-muted: var(--muted, #f5f2ed);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans antialiased m-0;
+  }
+  h1, h2, h3, h4, h5, h6, .font-serif {
+    @apply font-serif;
+  }
+  * {
+    @apply border-border;
+  }
+}
+
+.mesmerize {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.23 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.23 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.23 0 0);
+  --primary: oklch(0.23 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.80 0 0);
+  --secondary-foreground: oklch(0.35 0 0);
+  --accent: oklch(0.67 0.25 20);
+  --accent-foreground: oklch(1 0 0);
+  --muted: oklch(0.90 0 0);
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
