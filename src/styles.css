@@ -60,3 +60,28 @@
     display: none;
   }
 }
+
+/* Hide Instagram embed like counts and interaction buttons */
+.instagram-feed-container .instagram-media > div > div:last-child > div:last-child {
+  display: none !important;
+}
+
+/* Hide the interaction row (likes, comments, etc.) */
+.instagram-feed-container .instagram-media [style*="display: flex"][style*="flex-direction: row"][style*="margin-bottom"]:last-child {
+  display: none !important;
+}
+
+/* Alternative: Hide elements with auto margin-left (typically like counts) */
+.instagram-feed-container .instagram-media [style*="margin-left: auto"] {
+  display: none !important;
+}
+
+/* Filter underline animation */
+@keyframes underline {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

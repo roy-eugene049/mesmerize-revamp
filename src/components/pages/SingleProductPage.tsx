@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingBag, Facebook, Instagram, Mail, MessageCircle } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import type { Product } from "@/types/storefront";
 
 interface Props {
@@ -73,6 +74,9 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
   const [isDeliveryInfoOpen, setIsDeliveryInfoOpen] = useState(false);
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [isOurFlowersOpen, setIsOurFlowersOpen] = useState(false);
+  const { addItem, getItemQuantity } = useCart();
+  const quantityInCart = getItemQuantity(product.id);
+  const isInCart = quantityInCart > 0;
 
   const images = [product.featured_img, ...mockImages.slice(1)];
 
@@ -89,24 +93,24 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
   };
 
   return (
-    <div className="min-h-screen bg-background pt-32 md:pt-40">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12">
+    <div className="min-h-screen bg-background pt-24 sm:pt-28 md:pt-32 lg:pt-40">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-12">
         {/* Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="mb-6">
-          <ol className="flex items-center space-x-2 text-sm text-foreground/60">
+        <nav aria-label="Breadcrumb" className="mb-4 sm:mb-6 overflow-x-auto">
+          <ol className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-foreground/60 whitespace-nowrap">
             <li>
               <Link to="/" className="hover:text-foreground transition-colors">
                 Home
               </Link>
             </li>
-            <li>/</li>
+            <li className="px-0.5 sm:px-1">/</li>
             <li>
               <Link to="/products" className="hover:text-foreground transition-colors">
                 Products
               </Link>
             </li>
-            <li>/</li>
-            <li className="text-foreground" aria-current="page">
+            <li className="px-0.5 sm:px-1">/</li>
+            <li className="text-foreground truncate max-w-[200px] sm:max-w-none" aria-current="page">
               {product.title}
             </li>
           </ol>
@@ -189,7 +193,7 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
           {/* Product Details - 50% width, minimalist design */}
           <div className="space-y-6 w-full">
             {/* Product Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
               {product.title}
             </h1>
 
@@ -206,12 +210,12 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
               </p>
             </div>
 
-            {/* Price and Quantity Selector - Horizontal Layout */}
-            <div className="flex items-center gap-6">
-              <div className="text-2xl md:text-3xl font-bold text-foreground">
+            {/* Price and Quantity Selector - Responsive Layout */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
                 {product.currency.symbol} {product.price.toLocaleString()}
               </div>
-              <div className="grid grid-cols-3 items-center gap-4" style={{ width: '140px' }}>
+              <div className="grid grid-cols-3 items-center gap-3 sm:gap-4 w-full sm:w-auto sm:min-w-[140px]">
                 <button
                   type="button"
                   onClick={() => handleQuantityChange(-1)}
@@ -251,10 +255,15 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
             {/* Add to Basket Button */}
             <button
               type="button"
-              className="w-full bg-primary text-primary-foreground py-4 px-6 text-sm md:text-base tracking-[0.15em] uppercase font-bold hover:bg-primary/90 transition-colors focus:outline-none transition-opacity duration-300 focus:opacity-80 flex items-center justify-center gap-2"
+              onClick={() => addItem(product, quantity)}
+              className={`w-full py-4 px-6 text-sm md:text-base tracking-[0.15em] uppercase font-bold transition-colors focus:outline-none transition-opacity duration-300 focus:opacity-80 flex items-center justify-center gap-2 ${
+                isInCart
+                  ? "bg-foreground text-background hover:bg-foreground/90"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+              }`}
             >
               <ShoppingBag className="w-5 h-5" />
-              ADD TO BASKET
+              {isInCart ? `✓ IN BASKET (${quantityInCart})` : "ADD TO BASKET"}
             </button>
 
             {/* Add to Wishlist Button */}

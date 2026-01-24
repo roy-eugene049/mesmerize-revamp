@@ -1,5 +1,6 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import Header from '@/components/blocks/header/Header'
+import { CartProvider } from '@/contexts/CartContext'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -52,9 +53,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Header />
-        {children}
-        <Scripts />
+        <CartProvider>
+          <Header />
+          {children}
+          <Scripts />
+        </CartProvider>
       </body>
     </html>
   )
