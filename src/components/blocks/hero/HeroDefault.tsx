@@ -34,19 +34,20 @@ export default function HeroDefault({
   const title = block.data?.find((d) => d.name === "slide_one_title")?.value ?? "Exquisite flowers and thoughtful gifts for every occasion";
 
   return (
-    <section className="bg-background pt-32 md:pt-40 pb-8 md:pb-12 overflow-x-hidden overflow-y-visible flex flex-col items-center">
-      <div className="container mx-auto px-6 mb-8 text-center">
-        <h1 className="text-4xl md:text-6xl font-serif text-foreground leading-tight max-w-4xl mx-auto mb-4">
+    <section className="bg-background pt-24 sm:pt-28 md:pt-32 lg:pt-40 pb-6 sm:pb-8 md:pb-12 overflow-x-hidden overflow-y-visible flex flex-col items-center">
+      <div className="container mx-auto px-4 sm:px-6 mb-6 sm:mb-8 text-center">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif text-foreground leading-tight max-w-4xl mx-auto mb-3 sm:mb-4">
           {title}
         </h1>
       </div>
 
+      {/* Horizontal Scroll Gallery with Snap */}
       <div className="w-full relative no-scrollbar overflow-x-auto overflow-y-visible">
-        <div className="flex space-x-6 md:space-x-10 pb-12 md:pb-16 pl-6 pr-6 md:pl-20 md:pr-20 w-max mx-auto">
+        <div className="flex space-x-4 sm:space-x-6 md:space-x-10 pb-8 sm:pb-12 md:pb-16 pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-20 md:pr-20 w-max mx-auto snap-x snap-mandatory">
           {images.map((src) => (
             <div 
               key={src} 
-              className="w-[280px] md:w-[400px] aspect-[3/4] rounded-sm overflow-hidden shadow-2xl"
+              className="w-[200px] sm:w-[240px] md:w-[320px] lg:w-[400px] aspect-[3/4] rounded-sm overflow-hidden shadow-2xl snap-center flex-shrink-0"
             >
               <img
                 src={src}
@@ -58,10 +59,10 @@ export default function HeroDefault({
         </div>
       </div>
 
-      <div className="mt-8 md:mt-10 flex justify-center">
+      <div className="mt-6 sm:mt-8 md:mt-10 flex justify-center px-4">
         <Button
           variant="default"
-          className="bg-black text-white hover:bg-black/90 transition-all duration-500 rounded-none px-16 py-8 text-sm tracking-[0.2em] uppercase font-bold"
+          className="bg-black text-white hover:bg-black/90 transition-all duration-500 rounded-none px-8 py-4 sm:px-12 sm:py-6 md:px-16 md:py-8 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold w-full sm:w-auto max-w-sm"
           asChild
         >
           <a href="/products">

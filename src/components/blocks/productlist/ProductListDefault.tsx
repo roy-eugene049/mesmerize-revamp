@@ -123,20 +123,21 @@ export default function ProductListDefault({ block, products }: Props) {
 	const displayedProducts = getProductsForTab(activeTab);
 
 	return (
-		<section className="pt-20 pb-6 md:pb-8 bg-background overflow-hidden flex flex-col items-center">
-			<div className="container mx-auto px-6 mb-16">
-				<div className="flex flex-col md:flex-row items-center justify-between border-b border-foreground/5 pb-8 mb-12">
-					<h2 className="text-3xl md:text-4xl font-serif tracking-[0.05em] text-black uppercase">
+		<section className="pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-6 md:pb-8 bg-background overflow-hidden flex flex-col items-center">
+			<div className="container mx-auto px-4 sm:px-6 mb-12 sm:mb-16">
+				<div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-foreground/5 pb-6 sm:pb-8 mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl md:text-4xl font-serif tracking-[0.05em] text-black uppercase mb-6 md:mb-0">
 						{block.title || "POPULAR FLOWERS & GIFTS"}
 					</h2>
 
-					<div className="flex space-x-12 mt-8 md:mt-0">
+					{/* Tabs - Scrollable on mobile */}
+					<div className="flex space-x-8 sm:space-x-12 overflow-x-auto w-full md:w-auto no-scrollbar">
 						{tabs.map((tab) => (
 							<button
 								key={tab.id}
 								type="button"
 								onClick={() => setActiveTab(tab.id)}
-								className={`text-sm tracking-[0.2em] font-bold transition-all duration-300 relative pb-4 ${
+								className={`text-xs sm:text-sm tracking-[0.2em] font-bold transition-all duration-300 relative pb-3 sm:pb-4 whitespace-nowrap ${
 									activeTab === tab.id
 										? "text-black"
 										: "text-foreground/30 hover:text-foreground/50"
@@ -151,22 +152,24 @@ export default function ProductListDefault({ block, products }: Props) {
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+				{/* Product Grid - Responsive */}
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-10 sm:gap-y-12 md:gap-y-16">
 					{displayedProducts.map((product) => (
 						<ProductCard key={product.id} product={product as Product} />
 					))}
 				</div>
 
-			<div className="mt-20 flex justify-center">
-				<Link to="/products">
-					<button
-						type="button"
-						className="bg-black text-white px-16 py-8 text-sm tracking-[0.2em] uppercase font-bold hover:bg-black/90 transition-all duration-300"
-					>
-						View More Products
-					</button>
-				</Link>
-			</div>
+				{/* View More Products Button - Responsive */}
+				<div className="mt-12 sm:mt-16 md:mt-20 flex justify-center px-4">
+					<Link to="/products" className="w-full sm:w-auto">
+						<button
+							type="button"
+							className="w-full sm:w-auto bg-black text-white px-8 py-4 sm:px-12 sm:py-6 md:px-16 md:py-8 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold hover:bg-black/90 transition-all duration-300"
+						>
+							View More Products
+						</button>
+					</Link>
+				</div>
 			</div>
 		</section>
 	);
@@ -179,17 +182,17 @@ function ProductCard({ product }: { product: Product }) {
 			params={{ slug: product.slug }}
 			className="group cursor-pointer"
 		>
-			<div className="aspect-[3/4] relative bg-white overflow-hidden mb-6 shadow-sm border border-foreground/5">
+			<div className="aspect-[3/4] relative bg-white overflow-hidden mb-4 sm:mb-6 shadow-sm border border-foreground/5">
 				<button
 					type="button"
 					onClick={(e) => {
 						e.preventDefault();
 						e.stopPropagation();
 					}}
-					className="absolute top-4 right-4 z-10 text-foreground/40 hover:text-accent transition-colors"
+					className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 text-foreground/40 hover:text-accent transition-colors p-2"
 					aria-label="Add to wishlist"
 				>
-					<Heart className="w-5 h-5" />
+					<Heart className="w-4 h-4 sm:w-5 sm:h-5" />
 				</button>
 
 				<img
@@ -205,18 +208,18 @@ function ProductCard({ product }: { product: Product }) {
 							e.preventDefault();
 							e.stopPropagation();
 						}}
-						className="w-full bg-black text-white py-5 text-sm tracking-[0.2em] uppercase font-bold hover:bg-black/80 transition-colors"
+						className="w-full bg-black text-white py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold hover:bg-black/80 transition-colors"
 					>
 						+ ADD TO BASKET
 					</button>
 				</div>
 			</div>
 
-			<div className="space-y-3">
-				<h3 className="text-lg font-bold text-foreground leading-tight">
+			<div className="space-y-2 sm:space-y-3">
+				<h3 className="text-base sm:text-lg font-bold text-foreground leading-tight">
 					{product.title}
 				</h3>
-				<p className="text-base tracking-[0.05em] text-foreground font-medium">
+				<p className="text-sm sm:text-base tracking-[0.05em] text-foreground font-medium">
 					{product.currency.symbol} {product.price.toLocaleString()}
 				</p>
 			</div>
