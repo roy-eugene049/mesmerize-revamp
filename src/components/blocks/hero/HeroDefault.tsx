@@ -7,30 +7,44 @@ interface Props {
   editMode?: boolean;
 }
 
+interface CarouselImage {
+  imageUrl: string;
+  instagramUrl?: string;
+  isVideo?: boolean; // Declare isVideo property
+}
+
+// Image URLs for carousel
+const carouselImages: CarouselImage[] = [
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6LTwkdAbF0FEhGwqz1AesrdQNS4xlimTnPB3jb",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6Lf17hjSaHQ21jiDb4Nzqow9ufdnZeBSgc7yvV",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6LozziQvxahqznNLJZ13d0lH8F6w95oyfbsVg2",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6L1jcf9FX4BpGwcjTI3Z28DlrvW6QJOVnuoE9g",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6LHX6l4HzSf4Q7DOR9YT8KWUCXE6wm0Hu2oZLa",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6L6Z8gSFAUgpSWDCaZYtbM1sHxvrBko3XL92d0",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6LCrlIZOLuXmLH5gpYqGDCrJox73RFn6BUVb0k",
+  },
+  {
+    imageUrl: "https://utfs.io/f/Pa5Wucpkzp6LMo3G0LQD8kvdgsxBZTLrwVjoEhtCpzNqJ94l",
+  },
+];
+
 export default function HeroDefault({
-  shop,
+  shop: _shop,
   block,
 }: Props) {
-  if (!shop) return null;
-
-  const images = [
-    "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1562690868-60bbe7293e94?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1596438459194-f9686001d413?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1507290439931-a861b5a38200?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1550983092-249511f07a51?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1519378013398-fa3274be394b?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1523694576729-dc99e9c0f9b6?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1508784411316-02b8cd4d3a3a?auto=format&fit=crop&q=80&w=600&h=800",
-    "https://images.unsplash.com/photo-1599148482840-d54ca35abc39?auto=format&fit=crop&q=80&w=600&h=800",
-  ];
-
   const title = block.data?.find((d) => d.name === "slide_one_title")?.value ?? "Exquisite flowers and thoughtful gifts for every occasion";
 
   return (
@@ -44,15 +58,15 @@ export default function HeroDefault({
       {/* Horizontal Scroll Gallery with Snap */}
       <div className="w-full relative no-scrollbar overflow-x-auto overflow-y-visible">
         <div className="flex space-x-4 sm:space-x-6 md:space-x-10 pb-8 sm:pb-12 md:pb-16 pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-20 md:pr-20 w-max mx-auto snap-x snap-mandatory">
-          {images.map((src) => (
-            <div 
-              key={src} 
-              className="w-[200px] sm:w-[240px] md:w-[320px] lg:w-[400px] aspect-[3/4] rounded-sm overflow-hidden shadow-2xl snap-center flex-shrink-0"
+          {carouselImages.map((item, index) => (
+            <div
+              key={item.imageUrl}
+              className="w-[200px] sm:w-[240px] md:w-[320px] lg:w-[400px] aspect-[3/4] rounded-sm overflow-hidden shadow-2xl snap-center flex-shrink-0 group"
             >
               <img
-                src={src}
-                alt="Floral arrangement"
-                className="w-full h-full object-cover"
+                src={item.imageUrl || "/placeholder.svg"}
+                alt={`Mesmerize product ${index + 1}`}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
           ))}

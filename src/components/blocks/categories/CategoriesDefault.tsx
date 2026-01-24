@@ -16,35 +16,35 @@ const categories: Category[] = [
   {
     id: "fresh-flowers",
     name: "FRESH FLOWERS",
-    image: "https://images.unsplash.com/photo-1562690868-60bbe7293e94?auto=format&fit=crop&q=80&w=800&h=600",
+    image: "https://utfs.io/f/Pa5Wucpkzp6LozziQvxahqznNLJZ13d0lH8F6w95oyfbsVg2",
     link: "/categories/fresh-flowers",
     span: "col-span-1",
   },
   {
     id: "bouquets",
     name: "BOUQUETS",
-    image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=600&h=800",
+    image: "https://utfs.io/f/Pa5Wucpkzp6LTwkdAbF0FEhGwqz1AesrdQNS4xlimTnPB3jb",
     link: "/categories/bouquets",
     span: "row-span-2",
   },
   {
     id: "shop-by-occasion",
     name: "SHOP BY OCCASION",
-    image: "https://images.unsplash.com/photo-1597089548027-e40b852e505d?auto=format&fit=crop&q=80&w=800&h=600",
+    image: "https://utfs.io/f/Pa5Wucpkzp6L1jcf9FX4BpGwcjTI3Z28DlrvW6QJOVnuoE9g",
     link: "/categories/occasions",
     span: "col-span-1",
   },
   {
     id: "flower-decor",
     name: "FLOWER DECOR",
-    image: "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&q=80&w=600&h=600",
+    image: "https://utfs.io/f/Pa5Wucpkzp6LHX6l4HzSf4Q7DOR9YT8KWUCXE6wm0Hu2oZLa",
     link: "/categories/flower-decor",
     span: "col-span-1",
   },
   {
     id: "luxury-flowers",
-    name: "LUXURY FLOWERS",
-    image: "https://images.unsplash.com/photo-1507290439931-a861b5a38200?auto=format&fit=crop&q=80&w=600&h=600",
+    name: "GIFT PACKAGES",
+    image: "https://utfs.io/f/Pa5Wucpkzp6L6Z8gSFAUgpSWDCaZYtbM1sHxvrBko3XL92d0",
     link: "/categories/luxury-flowers",
     span: "col-span-1",
   },
@@ -101,7 +101,7 @@ export default function CategoriesDefault({ block }: Props) {
               >
                 <div className="relative w-full h-full">
                   <img
-                    src={category.image}
+                    src={category.image || "/placeholder.svg"}
                     alt={category.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
