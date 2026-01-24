@@ -194,17 +194,17 @@ function ProductCard({ product }: { product: Product }) {
 			className="group cursor-pointer"
 		>
 			<div className="aspect-[3/4] relative bg-white overflow-hidden mb-4 sm:mb-6 shadow-sm border border-foreground/5">
-				<button
-					type="button"
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-					}}
-					className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 text-foreground/40 hover:text-accent transition-colors p-2"
-					aria-label="Add to wishlist"
-				>
-					<Heart className="w-4 h-4 sm:w-5 sm:h-5" />
-				</button>
+			<button
+				type="button"
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+				}}
+				className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-md text-foreground/60 hover:text-foreground hover:bg-white transition-all"
+				aria-label="Add to wishlist"
+			>
+				<Heart className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />
+			</button>
 
 				<img
 					src={product.featured_img || ""}
@@ -216,11 +216,11 @@ function ProductCard({ product }: { product: Product }) {
 					<button
 						type="button"
 						onClick={handleAddToBasket}
-						className={`w-full py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-colors ${
-							isInCart
-								? "bg-accent text-accent-foreground hover:bg-accent/90"
-								: "bg-black text-white hover:bg-black/80"
-						}`}
+					className={`w-full py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-colors ${
+						isInCart
+							? "bg-foreground text-background hover:bg-foreground/90"
+							: "bg-black text-white hover:bg-black/80"
+					}`}
 					>
 						{isInCart ? `✓ IN BASKET (${quantityInCart})` : "+ ADD TO BASKET"}
 					</button>

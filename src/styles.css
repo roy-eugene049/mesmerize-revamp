@@ -75,3 +75,13 @@
 .instagram-feed-container .instagram-media [style*="margin-left: auto"] {
   display: none !important;
 }
+
+/* Filter underline animation */
+@keyframes underline {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
