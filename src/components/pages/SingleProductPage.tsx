@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingBag, Facebook, Instagram, Mail, MessageCircle } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import type { Product } from "@/types/storefront";
 
 interface Props {
@@ -73,6 +74,9 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
   const [isDeliveryInfoOpen, setIsDeliveryInfoOpen] = useState(false);
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [isOurFlowersOpen, setIsOurFlowersOpen] = useState(false);
+  const { addItem, getItemQuantity } = useCart();
+  const quantityInCart = getItemQuantity(product.id);
+  const isInCart = quantityInCart > 0;
 
   const images = [product.featured_img, ...mockImages.slice(1)];
 
@@ -251,10 +255,15 @@ export default function SingleProductPage({ product = mockProduct, relatedProduc
             {/* Add to Basket Button */}
             <button
               type="button"
-              className="w-full bg-primary text-primary-foreground py-4 px-6 text-sm md:text-base tracking-[0.15em] uppercase font-bold hover:bg-primary/90 transition-colors focus:outline-none transition-opacity duration-300 focus:opacity-80 flex items-center justify-center gap-2"
+              onClick={() => addItem(product, quantity)}
+              className={`w-full py-4 px-6 text-sm md:text-base tracking-[0.15em] uppercase font-bold transition-colors focus:outline-none transition-opacity duration-300 focus:opacity-80 flex items-center justify-center gap-2 ${
+                isInCart
+                  ? "bg-accent text-accent-foreground hover:bg-accent/90"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90"
+              }`}
             >
               <ShoppingBag className="w-5 h-5" />
-              ADD TO BASKET
+              {isInCart ? `✓ IN BASKET (${quantityInCart})` : "ADD TO BASKET"}
             </button>
 
             {/* Add to Wishlist Button */}

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Search, ShoppingBag, User, Heart, ChevronDown, X, Menu } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import CartDialog from "@/components/ui/CartDialog";
 
 interface NavItem {
   label: string;
@@ -79,6 +81,8 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { getTotalItems } = useCart();
 
   // Prevent body scroll when search or mobile menu is open
   useEffect(() => {
@@ -145,13 +149,16 @@ export default function Header() {
               </button>
               <button
                 type="button"
+                onClick={() => setIsCartOpen(true)}
                 className="p-1 text-gray-700 hover:text-gray-900 transition-colors relative"
                 aria-label="Cart"
               >
                 <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="absolute -top-1 -right-1 bg-[#D4AD70] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                  1
-                </span>
+                {getTotalItems() > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#D4AD70] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                    {getTotalItems()}
+                  </span>
+                )}
               </button>
               <button
                 type="button"
@@ -395,6 +402,9 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Cart Dialog */}
+      <CartDialog isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 }

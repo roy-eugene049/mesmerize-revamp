@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import type { Block, Product } from "@/types/storefront";
 
 interface Props {
@@ -176,6 +177,16 @@ export default function ProductListDefault({ block, products }: Props) {
 }
 
 function ProductCard({ product }: { product: Product }) {
+	const { addItem, getItemQuantity } = useCart();
+	const quantityInCart = getItemQuantity(product.id);
+	const isInCart = quantityInCart > 0;
+
+	const handleAddToBasket = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		addItem(product, 1);
+	};
+
 	return (
 		<Link
 			to="/products/$slug"
@@ -204,13 +215,14 @@ function ProductCard({ product }: { product: Product }) {
 				<div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
 					<button
 						type="button"
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}
-						className="w-full bg-black text-white py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold hover:bg-black/80 transition-colors"
+						onClick={handleAddToBasket}
+						className={`w-full py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-colors ${
+							isInCart
+								? "bg-accent text-accent-foreground hover:bg-accent/90"
+								: "bg-black text-white hover:bg-black/80"
+						}`}
 					>
-						+ ADD TO BASKET
+						{isInCart ? `✓ IN BASKET (${quantityInCart})` : "+ ADD TO BASKET"}
 					</button>
 				</div>
 			</div>
