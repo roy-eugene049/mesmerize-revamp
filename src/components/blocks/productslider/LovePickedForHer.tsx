@@ -102,6 +102,25 @@ function ProductCard({ product }: { product: Product }) {
 	const isInCart = quantityInCart > 0;
 	// Determine if product is "new" based on ID (deterministic)
 	const isNew = parseInt(product.id.slice(-1)) % 2 === 0;
+	
+	// Mock additional image for hover effect (only 2 images total)
+	const mockAlternateImage = "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&q=80&w=600&h=600";
+	
+	// Create array of images: featured image + one alternate (only 2 images)
+	const productImages = [product.featured_img, mockAlternateImage].filter(Boolean) as string[];
+	const [isHovered, setIsHovered] = useState(false);
+	
+	// Handle hover - show second image immediately
+	const handleMouseEnter = () => {
+		if (productImages.length > 1) {
+			setIsHovered(true);
+		}
+	};
+	
+	// Handle hover end - return to first image
+	const handleMouseLeave = () => {
+		setIsHovered(false);
+	};
 
 	const handleAddToBasket = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -134,7 +153,12 @@ function ProductCard({ product }: { product: Product }) {
 			params={{ slug: product.slug }}
 			className="group cursor-pointer"
 		>
-			<div className="aspect-[3/4] relative bg-white overflow-hidden mb-4 sm:mb-6 shadow-sm border border-foreground/5">
+			{/* biome-ignore lint/a11y/useSemanticElements: Image hover requires mouse events on container */}
+			<div 
+				className="aspect-[3/4] relative bg-white overflow-hidden mb-4 sm:mb-6 shadow-sm border border-foreground/5"
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
+			>
 				<button
 					type="button"
 					onClick={(e) => {
@@ -153,11 +177,24 @@ function ProductCard({ product }: { product: Product }) {
 					</div>
 				)}
 
-				<img
-					src={product.featured_img || ""}
-					alt={product.title}
-					className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-				/>
+				<div className="relative w-full h-full">
+					<img
+						src={productImages[0] || product.featured_img || ""}
+						alt={product.title}
+						className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:scale-110 ${
+							isHovered ? "opacity-0" : "opacity-100"
+						}`}
+					/>
+					{productImages.length > 1 && (
+						<img
+							src={productImages[1]}
+							alt={product.title}
+							className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:scale-110 ${
+								isHovered ? "opacity-100" : "opacity-0"
+							}`}
+						/>
+					)}
+				</div>
 
 				<div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
 					{isInCart ? (
