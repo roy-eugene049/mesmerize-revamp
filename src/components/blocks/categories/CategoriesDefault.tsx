@@ -103,7 +103,7 @@ export default function CategoriesDefault({ block }: Props) {
                   <img
                     src={category.image || "/placeholder.svg"}
                     alt={category.name}
-                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-110"
                   />
                   
                   {/* Dark overlay - fades on hover */}
