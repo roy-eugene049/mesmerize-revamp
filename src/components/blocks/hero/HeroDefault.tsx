@@ -57,7 +57,7 @@ export default function HeroDefault({
 
       {/* Horizontal Scroll Gallery with Snap */}
       <div className="w-full relative no-scrollbar overflow-x-auto overflow-y-visible">
-        <div className="flex space-x-4 sm:space-x-6 md:space-x-10 pb-8 sm:pb-12 md:pb-16 pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-20 md:pr-20 w-max mx-auto snap-x snap-mandatory">
+        <div className="flex space-x-4 sm:space-x-6 md:space-x-10 pb-8 sm:pb-12 md:pb-16 px-4 sm:px-6 md:px-20 w-max mx-auto snap-x snap-mandatory">
           {carouselImages.map((item, index) => (
             <div
               key={item.imageUrl}
