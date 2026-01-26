@@ -177,7 +177,7 @@ export default function ProductListDefault({ block, products }: Props) {
 }
 
 function ProductCard({ product }: { product: Product }) {
-	const { addItem, updateQuantity, getItemQuantity } = useCart();
+	const { addItem, updateQuantity, removeItem, getItemQuantity } = useCart();
 	const quantityInCart = getItemQuantity(product.id);
 	const isInCart = quantityInCart > 0;
 
@@ -192,6 +192,9 @@ function ProductCard({ product }: { product: Product }) {
 		e.stopPropagation();
 		if (quantityInCart > 1) {
 			updateQuantity(product.id, quantityInCart - 1);
+		} else {
+			// Remove item from cart when quantity reaches 0
+			removeItem(product.id);
 		}
 	};
 
@@ -234,8 +237,7 @@ function ProductCard({ product }: { product: Product }) {
 							<button
 								type="button"
 								onClick={handleDecreaseQuantity}
-								disabled={quantityInCart <= 1}
-								className="bg-foreground text-background hover:bg-foreground/90 py-4 sm:py-5 px-3 sm:px-4 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+								className="bg-foreground text-background hover:bg-foreground/90 py-4 sm:py-5 px-3 sm:px-4 flex items-center justify-center transition-colors"
 								aria-label="Decrease quantity"
 							>
 								<Minus className="w-4 h-4 sm:w-5 sm:h-5" />

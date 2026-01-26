@@ -11,7 +11,6 @@ interface Props {
 }
 
 export default function LovePickedForHer({ block, products }: Props) {
-	const [activeFilter, setActiveFilter] = useState("new-arrivals");
 	const [canScrollPrev, setCanScrollPrev] = useState(false);
 	const [canScrollNext, setCanScrollNext] = useState(false);
 	
@@ -40,14 +39,6 @@ export default function LovePickedForHer({ block, products }: Props) {
 		};
 	}, [emblaApi]);
 
-	// Reset carousel to start when filter changes
-	useEffect(() => {
-		if (emblaApi) {
-			emblaApi.reInit();
-			emblaApi.scrollTo(0);
-		}
-	}, [emblaApi, activeFilter]);
-
 	const scrollPrev = () => {
 		if (emblaApi) emblaApi.scrollPrev();
 	};
@@ -56,52 +47,21 @@ export default function LovePickedForHer({ block, products }: Props) {
 		if (emblaApi) emblaApi.scrollNext();
 	};
 
-	// Filter products based on active filter
-	const filteredProducts = activeFilter === "new-arrivals" 
-		? products.filter((_, i) => i % 2 === 0) // Mock "new" products
-		: products.filter((_, i) => i % 2 === 1); // Mock "flowers" products
-
 	return (
 		<section className="pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-6 md:pb-8 bg-background">
 			<div className="container mx-auto px-4 sm:px-6">
-				{/* Header with Title and Filters */}
-				<div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12">
-					<h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif tracking-[0.05em] text-foreground uppercase mb-4 sm:mb-0">
+				{/* Header with Title */}
+				<div className="mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif tracking-[0.05em] text-foreground uppercase">
 						{block.title || "Love Picked For Her"}
 					</h2>
-
-					{/* Filter Tabs */}
-					<div className="flex items-center gap-6 sm:gap-8">
-						<button
-							type="button"
-							onClick={() => setActiveFilter("new-arrivals")}
-							className={`text-sm sm:text-base tracking-[0.1em] uppercase font-medium transition-colors relative pb-2 ${
-								activeFilter === "new-arrivals"
-									? "text-foreground border-b-2 border-foreground"
-									: "text-foreground/40 hover:text-foreground/60"
-							}`}
-						>
-							New Arrivals
-						</button>
-						<button
-							type="button"
-							onClick={() => setActiveFilter("flowers")}
-							className={`text-sm sm:text-base tracking-[0.1em] uppercase font-medium transition-colors relative pb-2 ${
-								activeFilter === "flowers"
-									? "text-foreground border-b-2 border-foreground"
-									: "text-foreground/40 hover:text-foreground/60"
-							}`}
-						>
-							Flowers
-						</button>
-					</div>
 				</div>
 
 				{/* Embla Carousel Container */}
 				<div className="relative">
 					<div className="overflow-hidden" ref={emblaRef}>
 						<div className="flex gap-4 sm:gap-6">
-							{filteredProducts.map((product) => (
+							{products.map((product) => (
 								<div key={product.id} className="flex-[0_0_85%] sm:flex-[0_0_48%] md:flex-[0_0_23.5%] lg:flex-[0_0_23.5%] min-w-0">
 									<ProductCard product={product} />
 								</div>
@@ -114,20 +74,20 @@ export default function LovePickedForHer({ block, products }: Props) {
 						<button
 							type="button"
 							onClick={scrollPrev}
-							className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 z-10 bg-white border border-foreground/10 rounded-full p-2 sm:p-3 shadow-md hover:bg-muted transition-all"
+							className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 z-10 bg-white border border-foreground/10 rounded-full p-2 sm:p-3 shadow-md hover:bg-black transition-all group"
 							aria-label="Previous products"
 						>
-							<ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-foreground" />
+							<ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-foreground group-hover:text-white transition-colors" />
 						</button>
 					)}
 					{canScrollNext && (
 						<button
 							type="button"
 							onClick={scrollNext}
-							className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 z-10 bg-white border border-foreground/10 rounded-full p-2 sm:p-3 shadow-md hover:bg-muted transition-all"
+							className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 z-10 bg-white border border-foreground/10 rounded-full p-2 sm:p-3 shadow-md hover:bg-black transition-all group"
 							aria-label="Next products"
 						>
-							<ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-foreground" />
+							<ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-foreground group-hover:text-white transition-colors" />
 						</button>
 					)}
 				</div>
@@ -137,7 +97,7 @@ export default function LovePickedForHer({ block, products }: Props) {
 }
 
 function ProductCard({ product }: { product: Product }) {
-	const { addItem, updateQuantity, getItemQuantity } = useCart();
+	const { addItem, updateQuantity, removeItem, getItemQuantity } = useCart();
 	const quantityInCart = getItemQuantity(product.id);
 	const isInCart = quantityInCart > 0;
 	// Determine if product is "new" based on ID (deterministic)
@@ -154,6 +114,9 @@ function ProductCard({ product }: { product: Product }) {
 		e.stopPropagation();
 		if (quantityInCart > 1) {
 			updateQuantity(product.id, quantityInCart - 1);
+		} else {
+			// Remove item from cart when quantity reaches 0
+			removeItem(product.id);
 		}
 	};
 
@@ -202,8 +165,7 @@ function ProductCard({ product }: { product: Product }) {
 							<button
 								type="button"
 								onClick={handleDecreaseQuantity}
-								disabled={quantityInCart <= 1}
-								className="bg-foreground text-background hover:bg-foreground/90 py-4 sm:py-5 px-3 sm:px-4 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+								className="bg-foreground text-background hover:bg-foreground/90 py-4 sm:py-5 px-3 sm:px-4 flex items-center justify-center transition-colors"
 								aria-label="Decrease quantity"
 							>
 								<Minus className="w-4 h-4 sm:w-5 sm:h-5" />
