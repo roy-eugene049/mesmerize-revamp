@@ -99,7 +99,7 @@ export default function FeaturedProductDefault({ block, product }: Props) {
 											const val = parseInt(e.target.value) || 1;
 											setQuantity(Math.max(1, Math.min(product.available, val)));
 										}}
-										className="w-16 h-10 text-center border-0 bg-transparent text-base md:text-lg font-medium text-foreground focus:outline-none"
+										className="w-16 h-10 text-center border-0 bg-transparent text-base md:text-lg font-medium text-foreground focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [-moz-appearance:textfield]"
 										aria-label="Product quantity"
 									/>
 									<button
