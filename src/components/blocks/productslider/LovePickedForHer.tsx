@@ -181,7 +181,7 @@ function ProductCard({ product }: { product: Product }) {
 					<img
 						src={productImages[0] || product.featured_img || ""}
 						alt={product.title}
-						className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:scale-110 ${
+						className={`w-full h-full object-cover transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] delay-75 group-hover:scale-110 ${
 							isHovered ? "opacity-0" : "opacity-100"
 						}`}
 					/>
@@ -189,7 +189,7 @@ function ProductCard({ product }: { product: Product }) {
 						<img
 							src={productImages[1]}
 							alt={product.title}
-							className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:scale-110 ${
+							className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] delay-75 group-hover:scale-110 ${
 								isHovered ? "opacity-100" : "opacity-0"
 							}`}
 						/>
