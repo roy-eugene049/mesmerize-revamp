@@ -117,7 +117,7 @@ export default function InstagramFeedDefault({ block: _block }: Props) {
       <div className="container mx-auto px-4 sm:px-6 md:px-12">
         {/* Header with title and Instagram handle */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 md:mb-10">
-          <h2 className="text-xl sm:text-2xl md:text-3xl tracking-[0.1em] font-light text-foreground uppercase mb-3 sm:mb-0">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-[0.05em] font-serif text-foreground uppercase mb-3 sm:mb-0">
             AS SEEN ON INSTAGRAM
           </h2>
           <a

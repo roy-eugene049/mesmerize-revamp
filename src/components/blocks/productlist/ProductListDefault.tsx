@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Heart } from "lucide-react";
+import { Heart, Minus, Plus } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import type { Block, Product } from "@/types/storefront";
 
@@ -127,7 +127,7 @@ export default function ProductListDefault({ block, products }: Props) {
 		<section className="pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-6 md:pb-8 bg-background overflow-hidden flex flex-col items-center">
 			<div className="container mx-auto px-4 sm:px-6 mb-12 sm:mb-16">
 				<div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-foreground/5 pb-6 sm:pb-8 mb-8 sm:mb-12">
-					<h2 className="text-2xl sm:text-3xl md:text-4xl font-serif tracking-[0.05em] text-black uppercase mb-6 md:mb-0">
+					<h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif tracking-[0.05em] text-black uppercase mb-6 md:mb-0">
 						{block.title || "POPULAR FLOWERS & GIFTS"}
 					</h2>
 
@@ -154,7 +154,7 @@ export default function ProductListDefault({ block, products }: Props) {
 				</div>
 
 				{/* Product Grid - Responsive */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-10 sm:gap-y-12 md:gap-y-16">
+				<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-10 sm:gap-y-12 md:gap-y-16">
 					{displayedProducts.map((product) => (
 						<ProductCard key={product.id} product={product as Product} />
 					))}
@@ -177,7 +177,7 @@ export default function ProductListDefault({ block, products }: Props) {
 }
 
 function ProductCard({ product }: { product: Product }) {
-	const { addItem, getItemQuantity } = useCart();
+	const { addItem, updateQuantity, removeItem, getItemQuantity } = useCart();
 	const quantityInCart = getItemQuantity(product.id);
 	const isInCart = quantityInCart > 0;
 
@@ -185,6 +185,25 @@ function ProductCard({ product }: { product: Product }) {
 		e.preventDefault();
 		e.stopPropagation();
 		addItem(product, 1);
+	};
+
+	const handleDecreaseQuantity = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (quantityInCart > 1) {
+			updateQuantity(product.id, quantityInCart - 1);
+		} else {
+			// Remove item from cart when quantity reaches 0
+			removeItem(product.id);
+		}
+	};
+
+	const handleIncreaseQuantity = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (quantityInCart < product.available) {
+			updateQuantity(product.id, quantityInCart + 1);
+		}
 	};
 
 	return (
@@ -213,17 +232,39 @@ function ProductCard({ product }: { product: Product }) {
 				/>
 
 				<div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-					<button
-						type="button"
-						onClick={handleAddToBasket}
-					className={`w-full py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-colors ${
-						isInCart
-							? "bg-foreground text-background hover:bg-foreground/90"
-							: "bg-black text-white hover:bg-black/80"
-					}`}
-					>
-						{isInCart ? `✓ IN BASKET (${quantityInCart})` : "+ ADD TO BASKET"}
-					</button>
+					{isInCart ? (
+						<div className="flex">
+							<button
+								type="button"
+								onClick={handleDecreaseQuantity}
+								className="bg-foreground text-background hover:bg-foreground/90 py-4 sm:py-5 px-3 sm:px-4 flex items-center justify-center transition-colors"
+								aria-label="Decrease quantity"
+							>
+								<Minus className="w-4 h-4 sm:w-5 sm:h-5" />
+							</button>
+							<div className="flex-1 bg-foreground text-background py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold flex flex-col items-center justify-center">
+								<span className="text-[10px] sm:text-xs leading-tight">IN BASKET</span>
+								<span className="text-sm sm:text-base font-bold">{quantityInCart}</span>
+							</div>
+							<button
+								type="button"
+								onClick={handleIncreaseQuantity}
+								disabled={quantityInCart >= product.available}
+								className="bg-foreground text-background hover:bg-foreground/90 py-4 sm:py-5 px-3 sm:px-4 flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed border-l border-background/20"
+								aria-label="Increase quantity"
+							>
+								<Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+							</button>
+						</div>
+					) : (
+						<button
+							type="button"
+							onClick={handleAddToBasket}
+							className="w-full bg-black text-white hover:bg-black/80 py-4 sm:py-5 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-colors"
+						>
+							+ ADD TO BASKET
+						</button>
+					)}
 				</div>
 			</div>
 

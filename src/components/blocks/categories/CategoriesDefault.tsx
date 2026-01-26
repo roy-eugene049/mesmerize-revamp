@@ -53,7 +53,7 @@ const categories: Category[] = [
 export default function CategoriesDefault({ block }: Props) {
   return (
     <section className="pt-3 sm:pt-4 md:pt-6 pb-8 sm:pb-12 md:pb-20 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 md:px-12">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Header with title and discover more link */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 sm:mb-8 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif tracking-[0.05em] text-foreground uppercase mb-4 md:mb-0">
@@ -69,7 +69,7 @@ export default function CategoriesDefault({ block }: Props) {
         </div>
 
         {/* Categories Grid - Responsive */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
           {categories.map((category, index) => {
             // Determine grid span and aspect ratio based on position
             let gridClasses = "col-span-1";
@@ -103,12 +103,15 @@ export default function CategoriesDefault({ block }: Props) {
                   <img
                     src={category.image || "/placeholder.svg"}
                     alt={category.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-110"
                   />
                   
-                  {/* White overlay with category name */}
-                  <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-10">
-                    <div className="bg-white border border-black px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3">
+                  {/* Dark overlay - fades on hover */}
+                  <div className="absolute inset-0 bg-black/60 transition-opacity duration-500 group-hover:bg-black/20 z-10"></div>
+                  
+                  {/* Centered category name - fades out on hover */}
+                  <div className="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-500 opacity-100 group-hover:opacity-0">
+                    <div className="bg-white border border-black px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
                       <span className="text-[10px] sm:text-xs md:text-sm tracking-[0.1em] font-medium text-black uppercase whitespace-nowrap">
                         {category.name}
                       </span>
