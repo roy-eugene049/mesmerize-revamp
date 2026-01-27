@@ -76,7 +76,7 @@ export default function HeroDefault({
       <div className="mt-6 sm:mt-8 md:mt-10 flex justify-center px-4">
         <Button
           variant="default"
-          className="bg-black text-white hover:bg-black/90 transition-all duration-500 rounded-none px-8 py-4 sm:px-12 sm:py-6 md:px-16 md:py-8 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold w-full sm:w-auto max-w-sm"
+          className="bg-black text-white hover:bg-black/90 rounded-xl sm:rounded-none px-8 py-4 sm:px-12 sm:py-6 md:px-16 md:py-8 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold w-full sm:w-auto max-w-sm transition-[transform,box-shadow,background-color] duration-150 ease-out active:scale-[0.97] active:shadow-[inset_0_2px_8px_rgba(0,0,0,0.3)] active:bg-black/95 sm:active:scale-100 sm:active:shadow-none sm:active:bg-black/90 focus-visible:ring-2 focus-visible:ring-[#c5a059] focus-visible:ring-offset-2"
           asChild
         >
           <a href="/products">
