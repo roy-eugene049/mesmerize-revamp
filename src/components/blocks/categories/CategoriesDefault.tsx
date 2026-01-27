@@ -68,54 +68,34 @@ export default function CategoriesDefault({ block }: Props) {
           </a>
         </div>
 
-        {/* Categories Grid - Responsive */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        {/* 3 on top (1/3 each), Flower Decor + Gift Packages below (1/2 each), same on mobile and desktop */}
+        <div className="grid grid-cols-6 gap-2 sm:gap-4 md:gap-6">
           {categories.map((category, index) => {
-            // Determine grid span and aspect ratio based on position
-            let gridClasses = "col-span-1";
-            let aspectClass = "aspect-[4/3]";
-            
-            if (index === 0) {
-              // FRESH FLOWERS - horizontal rectangle on desktop
-              gridClasses = "sm:col-span-1";
-              aspectClass = "aspect-[4/3] md:aspect-[16/10]";
-            } else if (index === 1) {
-              // BOUQUETS - vertical/taller on desktop (spans 2 rows)
-              gridClasses = "sm:col-span-1 lg:row-span-2";
-              aspectClass = "aspect-[4/3] lg:aspect-auto lg:h-full";
-            } else if (index === 2) {
-              // SHOP BY OCCASION - horizontal rectangle on desktop
-              gridClasses = "sm:col-span-1";
-              aspectClass = "aspect-[4/3] md:aspect-[16/10]";
-            } else {
-              // FLOWER DECOR and LUXURY FLOWERS - square on desktop
-              gridClasses = "sm:col-span-1";
-              aspectClass = "aspect-[4/3] md:aspect-square";
-            }
+            const isTopThree = index < 3;
+            const colSpan = isTopThree ? "col-span-2" : "col-span-3";
+            const aspectClass = isTopThree ? "aspect-[4/3] md:aspect-[5/4]" : "aspect-[4/3] md:aspect-[5/4]";
 
             return (
               <a
                 key={category.id}
                 href={category.link}
-                className={`relative group overflow-hidden ${gridClasses} ${aspectClass}`}
+                className={`relative group overflow-hidden rounded-xl ${colSpan} ${aspectClass} transition-all duration-300 active:scale-[0.98] sm:active:scale-100`}
               >
-                <div className="relative w-full h-full">
+                <div className="relative w-full h-full min-h-0">
                   <img
                     src={category.image || "/placeholder.svg"}
                     alt={category.name}
-                    className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  
-                  {/* Dark overlay - fades on hover */}
-                  <div className="absolute inset-0 bg-black/60 transition-opacity duration-500 group-hover:bg-black/20 z-10"></div>
-                  
-                  {/* Centered category name - fades out on hover */}
-                  <div className="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-500 opacity-100 group-hover:opacity-0">
-                    <div className="bg-white border border-black px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg">
-                      <span className="text-[10px] sm:text-xs md:text-sm tracking-[0.1em] font-medium text-black uppercase whitespace-nowrap">
-                        {category.name}
-                      </span>
-                    </div>
+                  {/* Bottom-left label: dark gradient + white uppercase, matching reference */}
+                  <div
+                    className="absolute inset-0 z-10 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none"
+                    aria-hidden
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 z-20 flex items-end justify-start p-3 sm:p-4 md:p-5">
+                    <span className="text-white font-sans text-[11px] sm:text-sm md:text-base tracking-[0.15em] uppercase font-medium">
+                      {category.name}
+                    </span>
                   </div>
                 </div>
               </a>
