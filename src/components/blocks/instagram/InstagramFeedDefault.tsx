@@ -105,12 +105,12 @@ function InstagramCard({
       style={{ minHeight: 0, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
     >
       {/* Header: profile, username, followers, View profile */}
-      <header className="flex items-center gap-3 p-3 shrink-0 border-b border-black/10">
+      <header className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 shrink-0 border-b border-black/10 min-w-0">
         <a
           href={profileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 min-w-0 flex-1"
+          className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 overflow-hidden"
           aria-label="View Mesmerize Instagram profile"
         >
           {/* Logo circle with Instagram-style gradient border (red → orange → purple) */}
@@ -121,7 +121,7 @@ function InstagramCard({
                 "linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
             }}
           >
-            <div className="size-10 rounded-full overflow-hidden bg-[#f5f2ed] border border-black/5 flex items-center justify-center">
+            <div className="size-8 sm:size-10 rounded-full overflow-hidden bg-[#f5f2ed] border border-black/5 flex items-center justify-center">
               <img
                 src={MESMERIZE_LOGO_URL}
                 alt=""
@@ -129,18 +129,20 @@ function InstagramCard({
               />
             </div>
           </div>
-          <div className="min-w-0">
-            <p className="font-semibold text-foreground truncate">
+          <div className="min-w-0 overflow-hidden">
+            <p className="font-semibold text-foreground truncate text-sm sm:text-base">
               mesmerize_kenya
             </p>
-            <p className="text-xs text-muted-foreground">13.1K followers</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+              13.1K followers
+            </p>
           </div>
         </a>
         <a
           href={profileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 px-3 py-1.5 rounded-lg bg-[#0095f6] text-white text-sm font-semibold hover:bg-[#0095f6]/90 transition-colors"
+          className="shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#0095f6] text-white text-xs sm:text-sm font-semibold hover:bg-[#0095f6]/90 transition-colors whitespace-nowrap"
         >
           View profile
         </a>
@@ -277,7 +279,7 @@ export default function InstagramFeedDefault({
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
           {displayCards.map((card) => (
             <InstagramCard
               key={card.id}
